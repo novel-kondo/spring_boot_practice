@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{css/home.css}">
   <title>SpringTodoList</title>
 </head>
 <body>
-  <div th:each="todo : ${allTodo}">
+
+  <div class="create-todo">
+    <!-- th:objectでControllerから送られてきたTodoオブジェクトを受け取っている -->
+    <form method="POST" th:action="@{/}" th:object="${todo}">
+      <!-- 入力値にエラーがあった時のみ表示 -->
+      <p th:errors="*{content}" class="todo-error-message"></p>
+
+       <!-- th:fieldでHTMLのid,name属性を作ってくれる -->
+      <input type="text" th:field="*{content}">
+      <button type="submit" class="btn btn-primary">登録</button>
+    </form>
+  </div>
+
+  <h2>Todoリスト</h2>
+  <div class="incomplete" th:each="todo : ${allTodo}">
     <p th:text="${todo.content}"></p>
   </div>
+
 </body>
 
 </html>

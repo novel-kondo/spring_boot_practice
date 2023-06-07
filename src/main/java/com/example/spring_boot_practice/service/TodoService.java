@@ -15,8 +15,12 @@ public class TodoService {
   @Autowired
   TodoRepository todoRepository;
 
-  // todolistを全件取得
   public List<Todo> searchAll() {
     return todoRepository.findAll();
+  }
+
+  // Todoを新たにDBに登録する
+  public void addTodo(Todo todo) {
+    todoRepository.save(todo);
   }
 }
