@@ -1,52 +1,5 @@
 package com.example.spring_boot_practice.controller;
 
-// import com.example.spring_boot_practice.model.Todo;
-// import com.example.spring_boot_practice.repository.TodoRepository;
-// import lombok.RequiredArgsConstructor;
-// import org.springframework.stereotype.Controller;
-// import org.springframework.ui.Model;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.ModelAttribute;
-// import org.springframework.web.bind.annotation.PathVariable;
-// import org.springframework.web.bind.annotation.PostMapping;
-
-// @RequiredArgsConstructor
-// @Controller
-// public class TodoController {
-
-//   private final TodoRepository repository;
-
-//   //  Read
-//   @GetMapping("/")
-//   public String showAllTodo(@ModelAttribute Todo todo, Model model) {
-//     model.addAttribute("todos", repository.findAll()); 
-//     return "index";
-//   }
-
-//   //  Create
-//   @PostMapping("/add")
-//   public String addTodo(@ModelAttribute Todo todo) {
-//     repository.save(todo);
-//     return "redirect:/";
-//   }
-
-//   //  Update
-//   @PostMapping("/edit")
-//   public String editTodo(@ModelAttribute Todo todo) {
-//     repository.save(todo);
-//     return "redirect:/";
-//   }
-
-//   //  Delete
-//   @GetMapping("/delete/{id}")
-//   public String deleteTodo(@PathVariable Long id) { 
-//     repository.deleteById(id);
-//     return "redirect:/";
-//   }
-// }
-
-
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -59,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -89,5 +43,15 @@ public class TodoController {
     // エラーがなかった時は、Todoを新規登録する
     todoService.addTodo(todo);
     return "redirect:/";
-  }  
+  }
+
+  // 追加(未完了タスク一覧にある丸いボタンが押されたら、この処理が実行される)
+  @PostMapping("/done")
+  public String doneTodo(@RequestParam(name = "id") Integer todoId) {
+    Todo updateTodo = todoService.findById(todoId);
+    updateTodo.setDone(true);
+    todoService.addTodo(updateTodo);
+    return "redirect:/";
+  }
+
 }

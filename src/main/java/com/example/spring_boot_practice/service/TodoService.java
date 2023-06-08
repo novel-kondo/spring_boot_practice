@@ -1,6 +1,7 @@
 package com.example.spring_boot_practice.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.example.spring_boot_practice.model.Todo;
 import com.example.spring_boot_practice.repository.TodoRepository;
@@ -22,5 +23,11 @@ public class TodoService {
   // Todoを新たにDBに登録する
   public void addTodo(Todo todo) {
     todoRepository.save(todo);
+  }
+
+  // 追加(idに応じたTodoを返却する)
+  public Todo findById(Integer id) {
+    Optional<Todo> updateTodo = todoRepository.findById(id);
+    return updateTodo.get();
   }
 }
