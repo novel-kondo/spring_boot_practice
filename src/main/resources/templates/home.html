@@ -13,6 +13,11 @@
         <input type="text" th:field="*{content}" />
         <button type="submit" class="btn btn-primary">登録</button>
       </form>
+      <div class="delete-all">
+        <form method="POST" th:action="@{/deleteAll}">
+          <button type="submit">完了済みを削除</button>
+        </form>
+      </div>
     </div>
     <div class="flex">
       <div class="incomplete">

@@ -54,4 +54,11 @@ public class TodoController {
     return "redirect:/";
   }
 
+  // (削除ボタンが押されたら、処理される)
+  @PostMapping("/deleteAll")
+  public String deleteAll() {
+    todoService.deleteAllTodo();
+    return "redirect:/";
+  }
+
 }
