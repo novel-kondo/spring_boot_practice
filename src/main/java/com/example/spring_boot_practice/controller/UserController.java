@@ -1,13 +1,14 @@
 package com.example.spring_boot_practice.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.spring_boot_practice.dto.UserSearchRequest;
 import com.example.spring_boot_practice.entity.User;
 import com.example.spring_boot_practice.service.UserService;
 
@@ -16,7 +17,6 @@ import com.example.spring_boot_practice.service.UserService;
  */
 @Controller
 public class UserController {
-
   /**
    * ユーザー情報 Service
    */
@@ -24,14 +24,26 @@ public class UserController {
   UserService userService;
 
   /**
-   * ユーザー情報一覧画面を表示
+   * ユーザー情報検索画面を表示
    * @param model Model
-   * @return ユーザー情報一覧画面のHTML
+   * @return ユーザー情報一覧画面
    */
-  @RequestMapping(value = "/user/list", method = RequestMethod.GET)
-  public String displayList(Model model) {
-    List<User> userlist = userService.searchAll();
-    model.addAttribute("userlist", userlist);
-    return "user/list";
+  @GetMapping(value = "/user/search")
+  public String displaySearch(Model model) {
+    model.addAttribute("userSearchRequest", new UserSearchRequest());
+    return "user/search";
+  }
+
+  /**
+   * ユーザー情報検索
+   * @param userSearchRequest リクエストデータ
+   * @param model Model
+   * @return ユーザー情報一覧画面
+   */
+  @RequestMapping(value = "/user/id_search", method = RequestMethod.POST)
+  public String search(@ModelAttribute UserSearchRequest userSearchRequest, Model model) {
+    User user = userService.search(userSearchRequest);
+    model.addAttribute("userinfo", user);
+    return "user/search";
   }
 }
