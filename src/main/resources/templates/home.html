@@ -21,6 +21,10 @@
       <div>
         <a th:href="@{user/list}">ユーザー一覧</a>
       </div>
+      <form th:action="@{/afterLogout}" method="post">
+            <input type="submit" value="Sign Out"/>
+      </form>
+      <p th:text="${userName}"></p>
     </div>
     <div class="flex">
       <div class="incomplete">
